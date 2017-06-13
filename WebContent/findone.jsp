@@ -17,8 +17,11 @@
 	<a href="index.jsp"><button>主页</button>	</a>
 	<hr>
 	<hr>
-	
-	<table border='2'>
+	<%
+		Song songone = (Song)session.getAttribute("songone");
+		if (songone.getSname() != null){
+		%>
+	<table border="2">
 		<tr>
 			<th>Sname</th>
 			<th>Simage</th>
@@ -26,26 +29,20 @@
 			<th>sdate</th>
 			<th>songpath</th>
 		</tr>
-		<%
-		Song songone = (Song)session.getAttribute("songone");
-		if (songone != null){
-		%>
 			<tr>
 				<td><%= songone.getSname() %></td>
 				<td><img src="findImageBySname?sname=<%=songone.getSname()%> "> </td>
 				<td><%= songone.getSongname() %></td>
 				<td><%= songone.getSdate() %></td>
 				<td><%= songone.getSongpath() %></td>
-			</tr>
-			<%
+			</tr>	
+	</table>
+	<%
 		}else {
 			%>
 				<h3>song是空的，没有数据可以显示。</h3>
 			<%
 		}
 		%>
-			
-		
-	</table>
 </body>
 </html>

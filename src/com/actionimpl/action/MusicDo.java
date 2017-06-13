@@ -56,16 +56,16 @@ public class MusicDo implements SongImpl {
 		//这里输出的文件路径是正常的，但是拼接SQL到数据库中以后,string发生了变化，
 		//没有了\（当做转义字符了，没有存入到数据库中），怎么保存文件路径到数据库中？
 		//E:\\aa  这样的string才能存入数据库中一个\  ==> E:\a  
-		String sql = "insert into musics values(null,'"+music.getMname()+"','"+music.getMauthor()+"','"+music.getMparh()+"','','流行','哈哈')";
-//		String sql = "insert into musics values(null,?,?,?,'','流行','哈哈')";
+		//String sql = "insert into musics values(null,'"+music.getMname()+"','"+music.getMauthor()+"','"+music.getMparh()+"','','流行','哈哈')";
+		String sql = "insert into musics values(null,?,?,?,'','流行','哈哈')";
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 	    try {
 			connection = DbUtil.getInstance().getConnection();
 			preparedStatement = connection.prepareStatement(sql);
-//			preparedStatement.setString(1, music.getMname());
-//			preparedStatement.setString(2, music.getMauthor());
-//			preparedStatement.setString(3, music.getMparh());
+			preparedStatement.setString(1, music.getMname());
+			preparedStatement.setString(2, music.getMauthor());
+			preparedStatement.setString(3, music.getMparh());
 			System.out.println("SQL语句拼接完成。");
 			int result = preparedStatement.executeUpdate();
 			System.out.println("jieguo:"+result);

@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 import com.actionimpl.SongImpl;
@@ -30,7 +31,7 @@ public class SongDo implements SongImpl{
 			// TODO 自动生成的 catch 块
 			e1.printStackTrace();
 		}
-		String sql = "insert into demo value(null,?,'"+song.getSname()+"','"+song.getSongname()+"',now(),'"+song.getSongpath()+"')";
+		String sql = "insert into demo value(null,?,'"+song.getSname()+"','"+song.getSongname()+"',now(),?)";
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		try {
@@ -38,6 +39,8 @@ public class SongDo implements SongImpl{
 			preparedStatement = (PreparedStatement) connection.prepareStatement(sql);
 			try {
 				preparedStatement.setBinaryStream(1, file,file.available());
+				//路径中有特殊的格式，需要打包封装传入数据库。不能再sql中直接拼接。
+				preparedStatement.setString(2, song.getSongpath());
 				System.out.println("二进制sql拼接正常");
 				int result = preparedStatement.executeUpdate();
 				System.out.println("这是执行返回的结果Result:"+result);
@@ -83,13 +86,13 @@ public class SongDo implements SongImpl{
 	@Override
 	public Song selectByName(String sname) {
 		//在这里返回数据库查出的对象，注意simage的文件路径需要特殊处理。
-		String sql = "select * from demo where sname = '"+sname+"';";
-		System.out.println("sql"+sql);
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		Song song = new Song();
 		try {
 			connection = DbUtil.getInstance().getConnection();
+			String sql = "select * from demo where sname = '"+sname+"';";
+			System.out.println("sql"+sql);
 			preparedStatement = connection.prepareStatement(sql);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()){
@@ -121,13 +124,13 @@ public class SongDo implements SongImpl{
 		// TODO 自动生成的方法存根
 		String sql = "select simage from demo where sname='"+sname+"'";
 		Connection connection = null;
-		PreparedStatement preparedStatement = null;
+		Statement preparedStatement = null;
 		ResultSet resultSet = null;
 		InputStream inputStream = null;
 		try {
 			connection = DbUtil.getInstance().getConnection();
-			preparedStatement = connection.prepareStatement(sql);
-			resultSet = preparedStatement.executeQuery();
+			preparedStatement = connection.createStatement();
+			resultSet = preparedStatement.executeQuery(sql);
 			if (resultSet.next()) {
 				inputStream = resultSet.getBinaryStream("simage");
 				return inputStream;

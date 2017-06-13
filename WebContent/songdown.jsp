@@ -8,6 +8,12 @@
 </head>
 <body>
 	<h2>歌曲下载</h2>
-	
+	<div>
+		<p>
+			测试显示img图片标签的使用src的路劲问题。,src的文件能应用什么样的路径文件。
+		</p>
+		这是用户头像的显示文件：<br>
+		<img src="./aaa.jpg" alt="uimage" height="100px" width="100px">
+	</div>
 </body>
 </html>

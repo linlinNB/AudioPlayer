@@ -1,5 +1,6 @@
 package com.actionimpl.action;
 
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -96,7 +97,7 @@ public class UserDo implements UserImpl{
 		PreparedStatement preparedStatement = null;
 		try {
 			connection = DbUtil.getInstance().getConnection();
-			String sql = "update users set username=?,uautograph=?,passname=? where uemail =?";
+			String sql = "update users set username=?,uautograph=?,passname=?,uimage=? where uemail =?";
 			//注意：：用户的头像文件没有修改
 			System.out.println("update user info :"+sql);
 			preparedStatement = connection.prepareStatement(sql);
@@ -105,7 +106,8 @@ public class UserDo implements UserImpl{
 			preparedStatement.setString(1, user.getUsername());
 			preparedStatement.setString(2, user.getUantograph());
 			preparedStatement.setString(3, user.getPassword());
-			preparedStatement.setString(4, user.getUemail());
+			preparedStatement.setBlob(4, user.getUimage());
+			preparedStatement.setString(5, user.getUemail());
 			int result = preparedStatement.executeUpdate();
 			System.out.println("update resule success : "+result);
 			return result;
@@ -168,5 +170,12 @@ public class UserDo implements UserImpl{
 		}
 		return null;
 	}
-
+	
+	//这个方法用于放回用户的头像文件。
+	public InputStream returnImage(int id) {
+		// TODO 自动生成的方法存根
+		User user = find(id);
+		InputStream inputStream = (InputStream)user.getUimage();
+		return inputStream;
+	}
 }
