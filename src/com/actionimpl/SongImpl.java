@@ -14,6 +14,6 @@ public interface SongImpl {
 	List<Song> selectSong();
 	Song selectByName(String sname);
 	InputStream getImageBySname(String sname);
-	void saveMusic(Music music);
+	
 	
 }

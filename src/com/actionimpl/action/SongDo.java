@@ -153,10 +153,4 @@ public class SongDo implements SongImpl{
 		return null;
 	}
 
-	@Override
-	public void saveMusic(Music music) {
-		// TODO 自动生成的方法存根
-		
-	}
-
 }

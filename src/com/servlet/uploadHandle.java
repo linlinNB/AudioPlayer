@@ -16,6 +16,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import com.actionimpl.MusicImpl;
 import com.actionimpl.SongImpl;
 import com.actionimpl.action.MusicDo;
 import com.javabean.Music;
@@ -112,8 +113,8 @@ public class uploadHandle extends HttpServlet {
 					message = "文件上传成功！";
 					
 					//问题：怎么才能自动从文件名中提取 作者的名字？？？不需要输入
-					SongImpl songImpl  = new MusicDo();
-					songImpl.saveMusic(music);
+					MusicImpl musicImpl = new MusicDo();
+					musicImpl.saveMusic(music);
 					System.out.println("完成保存到数据库成功。");
 					//调用save函数保存对象的值，文件上传到指定文件夹，并保存在数据库中。
 				}
